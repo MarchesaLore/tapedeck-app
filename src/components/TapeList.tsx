@@ -24,8 +24,8 @@ const TapeList: React.FC<{
         <tbody>
           {filteredCassettes
             .map((cassette, index) => (
-              <tr key={index} className={`cassette-item ${cassette.color.toLowerCase()}`}>
-                <td>{cassette.img ? <img src={cassette.thumb} alt={`Cassette ${index + 1}`} className="cassette-image" /> : null}</td>
+              <tr key={index} className={`cassette-item ${cassette.color?.toLowerCase()}`}>
+                <td>{cassette.img && <img src={cassette.thumb} alt={`Cassette ${index + 1}`} className="cassette-image" />}</td>
                 <td>{cassette.brand}</td>
                 <td>{cassette.type}</td>
                 <td>{cassette.color}</td>

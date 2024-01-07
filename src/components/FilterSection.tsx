@@ -19,10 +19,6 @@ const FilterSection: React.FC<{
   const [selectedPlayTime, setSelectedPlayTime] = useState<string>('');
   const [selectedType, setSelectedType] = useState<string>('');
 
-  useEffect(() => {
-    console.log('FilterSection re-rendered');
-  }, []);
-
   const handleFilterChange = (filterType: string, value: string) => {
     switch (filterType) {
       case 'brand':

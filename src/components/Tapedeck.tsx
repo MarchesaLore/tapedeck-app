@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Cassette from '../interfaces/Cassette';
 import './Tapedeck.scss'; 
 import FilterSection from './FilterSection';
 import TapeList from './TapeList';
 import Pagination from './Pagination';
+import { fetchCassetteData } from '../services/CassetteService';
+import ErrorDisplay from './ErrorDisplay';
+import Spinner from './Spinner';
 
 const Tapedeck: React.FC = () => {
   const [allCassettes, setAllCassettes] = useState<Cassette[]>([]);
@@ -35,50 +37,26 @@ const Tapedeck: React.FC = () => {
   .sort((a, b) => a.localeCompare(b));
 
   const totalResults = filteredCassettes.length;
+  const [errorMsg, seterrorMsg] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   
+
   useEffect(() => {
-    // Fetch cassette data from the provided API
     const fetchData = async () => {
-
       try {
-        // const response = await axios.get('API_URL', { //to do: add API URL
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Accept': 'application/json',
-        //         'key': 'API_KEY' //to do: add API key            
-        //     },
-        // }); 
+        setIsLoading(true);
 
-        const response = await axios.get('/cassettes.json');
-        const cassetteData = response.data;
-        console.log(cassetteData);
-
-        // Extract cassette details from the unconventional structure
-        const formattedCassettes = cassetteData.map(
-          (cassetteObject: Record<string, Cassette[]>) => {
-            const key = Object.keys(cassetteObject)[0];
-            const cassetteDetailsArray = cassetteObject[key];
-
-            const cassetteDetails: Cassette = cassetteDetailsArray.reduce(
-              (acc, item): Cassette => ({ ...acc, ...item }),
-              {} as Cassette
-            );
-
-            const { page = '', img = '', thumb = '', playingTime = '', brand = '', type = '', color = '' } = cassetteDetails;
-
-            return { page, img, thumb, playingTime, brand, type, color };
-          }
-        );
-
-        setAllCassettes(formattedCassettes);
-        setFilteredCassettes(formattedCassettes);
-
-        // Calculate total pages based on the number of items and items per page
-        const totalCassettes = formattedCassettes.length;
-        console.log(totalCassettes);
-        setTotalPages(Math.ceil(totalCassettes / itemsPerPage));
-      } catch (error) {
-        console.error('Error fetching cassette data:', error);
+        //was just slowing down testing the spinner
+        //await new Promise(resolve => setTimeout(resolve, 2000));
+    
+        const cassetteData = await fetchCassetteData();
+        setAllCassettes(cassetteData);
+        setFilteredCassettes(cassetteData);
+        setTotalPages(Math.ceil(cassetteData.length / itemsPerPage));
+      } catch (error) {        
+        seterrorMsg(`An error has occurred: ${(error as Error).message}`);
+      }finally{
+        setIsLoading(false);
       }
     };
 
@@ -193,17 +171,23 @@ const Tapedeck: React.FC = () => {
       </div>
 
 
-      {/* Cassette list */}
-       <TapeList
-        filteredCassettes={filteredCassettes.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
-      />
+      {/* Error display */}
+      <ErrorDisplay message={errorMsg} />
 
+      {isLoading ? <Spinner /> : null}
+
+      {/* Cassette list */}
+      {!isLoading && errorMsg === '' && (
+        <TapeList
+          filteredCassettes={filteredCassettes.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
+        />
+      )}
 
        {/* Pagination */}
-        <Pagination
+       {!isLoading && errorMsg === '' && ( <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
-        handlePageChange={handlePageChange} />
+        handlePageChange={handlePageChange} />)}
     </div>
   );
 };
