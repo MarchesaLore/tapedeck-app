@@ -113,6 +113,7 @@ const Tapedeck: React.FC = () => {
 
     // Reset to the first page when filters change
     setCurrentPage(1);
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   }, [allCassettes, filteredCassettes, brandFilter, colorFilter, playTimeFilter, typeFilter, itemsPerPage]);
 
   const applyFilters = (cassettes: Cassette[]): Cassette[] => {
