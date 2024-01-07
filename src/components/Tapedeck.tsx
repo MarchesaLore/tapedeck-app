@@ -4,7 +4,7 @@ import './Tapedeck.scss';
 import FilterSection from './FilterSection';
 import TapeList from './TapeList';
 import Pagination from './Pagination';
-import { fetchCassetteData } from '../services/CassetteService.js';
+import { fetchCassetteData } from '../services/CassetteService';
 import ErrorDisplay from './ErrorDisplay';
 import Spinner from './Spinner';
 
