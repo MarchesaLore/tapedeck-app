@@ -9,7 +9,7 @@ const TapeList: React.FC<{
 
 
   return (
-    <div>
+    <div className="cassette-list-container">
       {/* Cassette list */}
       <table className="cassette-table">
         <thead>

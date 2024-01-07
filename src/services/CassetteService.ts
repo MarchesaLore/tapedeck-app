@@ -2,20 +2,26 @@ import axios from 'axios';
 import Cassette from '../interfaces/Cassette';
 
 const API_URL = '/cassettes.json'; // Will Update with your actual API URL
+const API_URL_real = 'https://tapedeck-api-fresk.vercel.app/api';
+const API_KEY = 'hoiierhkjhsjkherkhwhwe'; 
 
 const fetchCassetteData = async (): Promise<Cassette[]> => {
 
+  const cachedData = localStorage.getItem('cassetteData');
+  const cachedCassetteData = cachedData ? JSON.parse(cachedData) : [];
+  if (cachedCassetteData.length) {
+    return transformCassetteData(cachedCassetteData);
+  }
   try {
-    // const response = await axios.get('API_URL', { //to do: add API URL
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Accept': 'application/json',
-    //         'key': 'API_KEY' //to do: add API key            
-    //     },
-    // }); 
-
-    const response = await axios.get(API_URL);
+    const response = await axios.get(API_URL_real, { 
+        headers: {
+            'x-api-key': API_KEY        
+        },
+    }); 
+    //const response = await axios.get(API_URL);
     const cassetteData = response.data;
+    localStorage.setItem('cassetteData', JSON.stringify(cassetteData));
+
     return transformCassetteData(cassetteData);
   } catch (error) {
     console.error('Error fetching cassette data:', error);

@@ -7,6 +7,7 @@ import Pagination from './Pagination';
 import { fetchCassetteData } from '../services/CassetteService';
 import ErrorDisplay from './ErrorDisplay';
 import Spinner from './Spinner';
+import { isVisible } from '@testing-library/user-event/dist/utils';
 
 const Tapedeck: React.FC = () => {
   const [allCassettes, setAllCassettes] = useState<Cassette[]>([]);
@@ -39,7 +40,7 @@ const Tapedeck: React.FC = () => {
   const totalResults = filteredCassettes.length;
   const [errorMsg, seterrorMsg] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  
+  const [isFilterVisible, setFilterVisible] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,6 +55,7 @@ const Tapedeck: React.FC = () => {
         setFilteredCassettes(cassetteData);
         setTotalPages(Math.ceil(cassetteData.length / itemsPerPage));
       } catch (error) {        
+        console.log(error);
         seterrorMsg(`An error has occurred: ${(error as Error).message}`);
       }finally{
         setIsLoading(false);
@@ -139,14 +141,16 @@ const Tapedeck: React.FC = () => {
       <h1>Tapedeck</h1>
 
       {/* Filter section */}
+      {isFilterVisible && 
       <FilterSection 
       brandOptions={brandOptions} 
       colorOptions={colorOptions} 
       typeOptions={typeOptions} 
       playTimeOptions={playTimeOptions} 
       onFilterChange={onFilterChange}
-      />
-
+      />}
+      <button className="showFilters" onClick={() => setFilterVisible(!isFilterVisible)}> {isFilterVisible?'hide':'show'} filters</button>
+      
       {/* Items per page section */}            
       <div className="item-per-page-div">
         <div>

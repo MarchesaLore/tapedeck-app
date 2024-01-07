@@ -8,6 +8,9 @@
     color:white;
     border-radius: 10px;
     padding: 20px;
+    @media (max-width: 768px) {
+      display: block;
+    }
     div{
       display: block;
       margin-bottom: 10px;

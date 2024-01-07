@@ -8,6 +8,9 @@
       padding: 12px;
       text-align: left;
       width: 20%;
+      @media (max-width: 768px) {
+         padding: 5px;
+      }
     }
     tr{
       border-bottom: 1px solid #ddd;
@@ -16,6 +19,9 @@
     img {
       max-width: 100px;
       max-height: 100px;
+      @media (max-width: 768px) {
+          max-width: 50px;
+      }
     }
 
     td:first-child {
@@ -59,4 +65,10 @@
 .error-message{
   color: red;
   text-align: center;
+}
+.cassette-list-container{
+  overflow: hidden;
+  @media (max-width: 768px) {
+    overflow: scroll;    
+  }
 }
