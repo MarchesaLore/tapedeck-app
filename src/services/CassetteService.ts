@@ -7,8 +7,9 @@ const API_KEY = 'hoiierhkjhsjkherkhwhwe';
 
 const fetchCassetteData = async (): Promise<Cassette[]> => {
 
-  const cachedData = localStorage.getItem('cassetteData');
+  const cachedData = sessionStorage.getItem('cassetteData');
   const cachedCassetteData = cachedData ? JSON.parse(cachedData) : [];
+  
   if (cachedCassetteData.length) {
     return transformCassetteData(cachedCassetteData);
   }
@@ -20,7 +21,8 @@ const fetchCassetteData = async (): Promise<Cassette[]> => {
     }); 
     //const response = await axios.get(API_URL);
     const cassetteData = response.data;
-    localStorage.setItem('cassetteData', JSON.stringify(cassetteData));
+    sessionStorage.setItem('cassetteData', JSON.stringify(cassetteData));
+
 
     return transformCassetteData(cassetteData);
   } catch (error) {
