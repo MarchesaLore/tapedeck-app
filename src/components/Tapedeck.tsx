@@ -4,9 +4,9 @@ import './Tapedeck.scss';
 import FilterSection from './FilterSection';
 import TapeList from './TapeList';
 import Pagination from './Pagination';
-import { fetchCassetteData } from '../services/CassetteService';
 import ErrorDisplay from './ErrorDisplay';
 import Spinner from './Spinner';
+import axios from 'axios';
 
 const Tapedeck: React.FC = () => {
   const [allCassettes, setAllCassettes] = useState<Cassette[]>([]);
@@ -41,6 +41,10 @@ const Tapedeck: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isFilterVisible, setFilterVisible] = useState<boolean>(true);
 
+  //const API_URL = '/cassettes.json'; // Will Update with your actual API URL
+  const API_URL_real = 'https://tapedeck-api-fresk.vercel.app/api';
+  const API_KEY = 'hoiierhkjhsjkherkhwhwe'; 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -48,11 +52,32 @@ const Tapedeck: React.FC = () => {
 
         //was just slowing down testing the spinner
         //await new Promise(resolve => setTimeout(resolve, 2000));
-    
-        const cassetteData = await fetchCassetteData();
-        setAllCassettes(cassetteData);
-        setFilteredCassettes(cassetteData);
-        setTotalPages(Math.ceil(cassetteData.length / itemsPerPage));
+        let formattedData: Cassette[] = [];
+        
+        
+        const cachedData = sessionStorage.getItem('cassetteData');
+        const cachedCassetteData = cachedData ? JSON.parse(cachedData) : [];
+        
+        if (cachedCassetteData.length) {
+          formattedData = transformCassetteData(cachedCassetteData);
+        }else{
+          await axios.get(API_URL_real, { 
+            headers: {
+                'x-api-key': API_KEY        
+            },
+          }).then((response) => {
+            const cassetteData = response.data;
+            sessionStorage.setItem('cassetteData', JSON.stringify(cassetteData));
+            formattedData = transformCassetteData(cassetteData);
+          }).catch((error) => {
+            console.log(error);
+            seterrorMsg(`An error has occurred: ${(error as Error).message}`);
+          });
+        }
+
+        setAllCassettes(formattedData);
+        setFilteredCassettes(formattedData);
+        setTotalPages(Math.ceil(formattedData.length / itemsPerPage));
       } catch (error) {        
         console.log(error);
         seterrorMsg(`An error has occurred: ${(error as Error).message}`);
@@ -153,6 +178,8 @@ const Tapedeck: React.FC = () => {
     );
     return formattedCassettes;
   };
+
+
   return (
     <div className="cassette-list">
       <h1>Tapedeck</h1>
@@ -211,6 +238,7 @@ const Tapedeck: React.FC = () => {
         handlePageChange={handlePageChange} />)}
     </div>
   );
+  
 };
 
 export default Tapedeck;

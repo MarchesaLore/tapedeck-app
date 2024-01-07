@@ -31,7 +31,6 @@
     "fs-extra": "^10.0.0",
     "html-webpack-plugin": "^5.5.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^27.4.3",
     "jest-resolve": "^27.4.2",
     "jest-watch-typeahead": "^1.0.0",
     "mini-css-extract-plugin": "^2.4.5",
@@ -89,7 +88,7 @@
     "@babel/preset-typescript": "^7.23.3",
     "@testing-library/react": "^14.1.2",
     "@types/jest": "^29.5.11",
-    "ts-jest": "^29.1.1"
+    "jest": "^27.5.1"
   },
   "jest": {
     "preset": "ts-jest",
