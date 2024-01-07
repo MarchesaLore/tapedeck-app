@@ -101,6 +101,7 @@ const Tapedeck: React.FC = () => {
   useEffect(() => {
     const filteredCassettes = applyFilters(allCassettes);
     setFilteredCassettes(filteredCassettes);
+    //[eslint-disable-next-line react-hooks/exhaustive-deps]
   }, [allCassettes, brandFilter, colorFilter, playTimeFilter, typeFilter]);
 
   const applyFilters = (cassettes: Cassette[]): Cassette[] => {
