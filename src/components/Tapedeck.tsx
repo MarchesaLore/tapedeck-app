@@ -4,10 +4,9 @@ import './Tapedeck.scss';
 import FilterSection from './FilterSection';
 import TapeList from './TapeList';
 import Pagination from './Pagination';
-import { fetchCassetteData } from '../services/CassetteService';
+import { fetchCassetteData } from '../services/CassetteService.js';
 import ErrorDisplay from './ErrorDisplay';
 import Spinner from './Spinner';
-import { isVisible } from '@testing-library/user-event/dist/utils';
 
 const Tapedeck: React.FC = () => {
   const [allCassettes, setAllCassettes] = useState<Cassette[]>([]);
@@ -78,7 +77,7 @@ const Tapedeck: React.FC = () => {
   
   
   useEffect(() => {
-    console.log('Filters changed');
+    //console.log('Filters changed');
     // Apply filters
     const filteredCassettes = applyFilters(allCassettes);
     setFilteredCassettes(filteredCassettes);
@@ -92,7 +91,7 @@ const Tapedeck: React.FC = () => {
   }, [allCassettes, brandFilter, colorFilter, playTimeFilter, typeFilter]);
 
   const applyFilters = (cassettes: Cassette[]): Cassette[] => {
-    console.log('filters ',brandFilter, colorFilter, playTimeFilter, typeFilter);
+    //console.log('filters ',brandFilter, colorFilter, playTimeFilter, typeFilter);
     return cassettes.filter((cassette) => {
       const brandMatches = brandFilter ? cassette.brand === brandFilter : true;
       const colorMatches = colorFilter ? cassette.color === colorFilter : true;
