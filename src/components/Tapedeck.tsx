@@ -92,29 +92,16 @@ const Tapedeck: React.FC = () => {
 
   
   useEffect(() => {
-    // Calculate total pages based on the number of items and items per page
     const totalCassettes = filteredCassettes.length;
     setTotalPages(Math.ceil(totalCassettes / itemsPerPage));
-  
-    // Reset to the first page when filters change
     setCurrentPage(1);
   }, [filteredCassettes, itemsPerPage]);
   
   
   useEffect(() => {
-    //console.log('Filters changed');
-    // Apply filters
     const filteredCassettes = applyFilters(allCassettes);
     setFilteredCassettes(filteredCassettes);
-
-    // Calculate total pages based on the number of items and items per page
-    const totalCassettes = filteredCassettes.length;
-    setTotalPages(Math.ceil(totalCassettes / itemsPerPage));
-
-    // Reset to the first page when filters change
-    setCurrentPage(1);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allCassettes, filteredCassettes, brandFilter, colorFilter, playTimeFilter, typeFilter, itemsPerPage]);
+  }, [allCassettes, brandFilter, colorFilter, playTimeFilter, typeFilter]);
 
   const applyFilters = (cassettes: Cassette[]): Cassette[] => {
     //console.log('filters ',brandFilter, colorFilter, playTimeFilter, typeFilter);
