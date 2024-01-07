@@ -1,5 +1,6 @@
+import React from 'react';
+import Tapedeck from './components/Tapedeck'; // Adjust the path based on your actual file structure
 import './App.css';
-import Tapedeck from './components/Tapedeck';
 
 function App() {
   return (

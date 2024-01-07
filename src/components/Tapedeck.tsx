@@ -134,7 +134,25 @@ const Tapedeck: React.FC = () => {
   const firstResultIndex = (currentPage - 1) * itemsPerPage + 1;
   const lastResultIndex = Math.min(currentPage * itemsPerPage, totalResults);
 
-
+  const transformCassetteData = (cassetteData: any): Cassette[] => {
+    // Extract cassette details from the unconventional structure
+    const formattedCassettes = cassetteData.map(
+      (cassetteObject: Record<string, Cassette[]>) => {
+        const key = Object.keys(cassetteObject)[0];
+        const cassetteDetailsArray = cassetteObject[key];
+  
+        const cassetteDetails: Cassette = cassetteDetailsArray.reduce(
+          (acc, item): Cassette => ({ ...acc, ...item }),
+          {} as Cassette
+        );
+  
+        const { page = '', img = '', thumb = '', playingTime = '', brand = '', type = '', color = '' } = cassetteDetails;
+  
+        return { page, img, thumb, playingTime, brand, type, color };
+      }
+    );
+    return formattedCassettes;
+  };
   return (
     <div className="cassette-list">
       <h1>Tapedeck</h1>
@@ -153,8 +171,8 @@ const Tapedeck: React.FC = () => {
       {/* Items per page section */}            
       <div className="item-per-page-div">
         <div>
-          <label>Items per Page:</label>
-          <input
+          <label aria-label="itemsPerPage">Items per Page:</label>
+          <input id="itemsPerPage"
             type="number"
             min="1"
             value={itemsPerPage}
