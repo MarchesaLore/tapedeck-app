@@ -1,11 +1,10 @@
-import React from 'react';
 import './App.css';
-import CassetteList from './components/CassetteList';
+import Tapedeck from './components/Tapedeck';
 
 function App() {
   return (
     <div className="App">
-      <CassetteList />
+      <Tapedeck />
     </div>
   );
 }

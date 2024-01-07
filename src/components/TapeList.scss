@@ -1,0 +1,54 @@
+
+.cassette-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      //border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+      width: 20%;
+    }
+    tr{
+      border-bottom: 1px solid #ddd;
+    }
+
+    img {
+      max-width: 100px;
+      max-height: 100px;
+    }
+
+    td:first-child {
+      width: 100px;
+    }
+    .cassette-item{
+      &.red{
+        background-color: #FFDADA;
+      }
+      &.grey{
+        background-color: #F2F2F2;
+      }
+      &.black{
+        background-color: #E5E5E5;
+      }
+      &.blue{
+        background-color: #DCE8FF ;
+      }
+      &.yellow{
+        background-color: #FFF5CC ;
+      }
+      &.purple{
+        background-color: #F5EDFF ;
+      }
+      &.orange{
+        background-color: #FFE5CC ;
+      }
+      &.green{
+        background-color: #E5F4E5 ;
+      }
+      &.white{
+        background-color: #fff ;
+      }
+    }
+    
+  }
