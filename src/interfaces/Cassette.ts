@@ -1,4 +1,5 @@
 interface Cassette {
+    key: string;
     page: string;
     img: string;
     thumb: string;

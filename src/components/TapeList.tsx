@@ -6,26 +6,27 @@ const TapeList: React.FC<{
   filteredCassettes: Cassette[];
   
 }> = ({ filteredCassettes}) => {
-  const [selectedCassetteIndex, setSelectedCassetteIndex] = useState<number | null>(null);
+  const [selectedCassetteKey, setSelectedCassetteKey] = useState<string>();
 
   // Updated function to toggle the display
-  const toggleImage = (index: number) => {
-    if (selectedCassetteIndex === index) {
+  const toggleImage = (uniquekey: string) => {
+    if (selectedCassetteKey === uniquekey) {
       // If the clicked cassette is already selected, hide the image
-      setSelectedCassetteIndex(null);
+      setSelectedCassetteKey('');
     } else {
       // Otherwise, show the image of the clicked cassette
-      setSelectedCassetteIndex(index);
+      setSelectedCassetteKey(uniquekey);
     }
   };
 
 
   return (
       <div className='cassette-rack'>
+          {filteredCassettes.length === 0 && <div className="no-results">No results found</div>}
           {filteredCassettes
             .map((cassette, index) => (
-              <div key={index} className='cassette-item' onClick={() => toggleImage(index)}>
-                 <div className={`cassette-image ${selectedCassetteIndex === index ? 'visible' : ''}`}>
+              <div key={index} className='cassette-item' onClick={() => toggleImage(cassette.key)}>
+                 <div className={`cassette-image ${selectedCassetteKey === cassette.key ? 'visible' : ''}`}>
                   <div>
                      {cassette.img && <img src={cassette.img} alt={`Cassette ${index + 1}`} className="cassette-img" />}
                   </div>

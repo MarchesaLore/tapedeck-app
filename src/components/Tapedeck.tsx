@@ -51,7 +51,8 @@ const Tapedeck: React.FC = () => {
         setIsLoading(true);
         //was just slowing down testing the spinner
         //await new Promise(resolve => setTimeout(resolve, 2000));
-        let formattedData: Cassette[] = [];        
+        let formattedData: Cassette[] = [];
+        
         
         const cachedData = sessionStorage.getItem('cassetteData');
         const cachedCassetteData = cachedData ? JSON.parse(cachedData) : [];
@@ -80,7 +81,7 @@ const Tapedeck: React.FC = () => {
         console.log(error);
         seterrorMsg(`An error has occurred: ${(error as Error).message}`);
       }finally{
-        setIsLoading(false);
+        setTimeout(() => setIsLoading(false), 250);
       }
     };
 
@@ -90,15 +91,19 @@ const Tapedeck: React.FC = () => {
 
   
   useEffect(() => {
+    setIsLoading(true);
     const totalCassettes = filteredCassettes.length;
     setTotalPages(Math.ceil(totalCassettes / itemsPerPage));
     setCurrentPage(1);
+    setTimeout(() => setIsLoading(false), 250);
   }, [filteredCassettes, itemsPerPage]);
   
   
   useEffect(() => {
+    setIsLoading(true);
     const filteredCassettes = applyFilters(allCassettes);
     setFilteredCassettes(filteredCassettes);
+    setTimeout(() => setIsLoading(false), 250);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allCassettes, brandFilter, colorFilter, playTimeFilter, typeFilter]);
 
@@ -160,7 +165,7 @@ const Tapedeck: React.FC = () => {
   
         const { page = '', img = '', thumb = '', playingTime = '', brand = '', type = '', color = '' } = cassetteDetails;
   
-        return { page, img, thumb, playingTime, brand, type, color };
+        return { key, page, img, thumb, playingTime, brand, type, color };
       }
     );
     return formattedCassettes;
