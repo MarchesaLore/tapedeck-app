@@ -36,6 +36,8 @@ when any error happens in the API call it will be displayed instead of the table
 it allows the user to filter audio cassettes on brand name, color, play time and type and the app must allow for these filters to be combined. 
 I added a circle to imitate the radio light on when the filter is selected to improve the user experience.
 
+Future improvement: when selecting a filter I could be adjusting the other filters to indicate which settings are available in the filtered cassette.
+
 <img width="437" alt="image" src="https://github.com/MarchesaLore/tapedeck-app/assets/22336407/0659409d-a727-4cd6-973b-1c181cbe7c35">
 
 
