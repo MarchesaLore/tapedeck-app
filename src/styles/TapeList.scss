@@ -37,9 +37,11 @@
         max-width: 90%;
       }
     }
+    &.has-image{
+      cursor: pointer;
+    }
     .cassette-side{
       z-index: 1;
-      cursor: pointer;
       background-color: #000;
       max-width: 100%;
       padding: 7px 20px 7px 20px;

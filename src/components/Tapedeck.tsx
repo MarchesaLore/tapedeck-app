@@ -44,7 +44,7 @@ const Tapedeck: React.FC = () => {
   //const API_URL = '/cassettes.json'; // Will Update with your actual API URL
   const API_URL_real = 'https://tapedeck-api-fresk.vercel.app/api';
   const API_KEY = 'hoiierhkjhsjkherkhwhwe'; 
-  
+    
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -73,6 +73,9 @@ const Tapedeck: React.FC = () => {
             seterrorMsg(`An error has occurred: ${(error as Error).message}`);
           });
         }
+
+        //sorting
+        formattedData.sort((a, b) => a.brand.localeCompare(b.brand));
 
         setAllCassettes(formattedData);
         setFilteredCassettes(formattedData);
