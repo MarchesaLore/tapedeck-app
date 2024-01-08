@@ -1,7 +1,10 @@
 Live url: <a href="https://endearing-kitsune-f81089.netlify.app/">Tapedeck App</a>
 
 # Application Tapedeck app
-The Tapedeck application provides a user-friendly interface for exploring and filtering a collection of audio cassettes. The main components of the app are:
+The Tapedeck application provides a user-friendly interface for exploring and filtering a collection of audio cassettes. 
+I used a Retro design, inspiring myself to an analog tapedeck for the filtering and a cassette rack for the results.
+
+The main components of the app are:
 
 
 ## 1 Filter Section
@@ -54,6 +57,9 @@ In addition to the main components, the Tapedeck app includes:
 
 
 ### FONTS
+
+Fonts have been chosen to represent the area when cassettes are from to similate the tapedeck and cassette rack
+
 - Monoton: main title
 - Michroma: labels and results
 
