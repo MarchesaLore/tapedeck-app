@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Cassette from '../interfaces/Cassette';
-import './Tapedeck.scss'; 
 import FilterSection from './FilterSection';
 import TapeList from './TapeList';
 import Pagination from './Pagination';
 import ErrorDisplay from './ErrorDisplay';
 import Spinner from './Spinner';
 import axios from 'axios';
+import '../styles//Tapedeck.scss'; 
 
 const Tapedeck: React.FC = () => {
   const [allCassettes, setAllCassettes] = useState<Cassette[]>([]);

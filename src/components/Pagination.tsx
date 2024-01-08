@@ -1,5 +1,5 @@
 import React from 'react';
-import './Tapedeck.scss'; 
+import '../styles/Pagination.scss';
 
 const PAGE_RANGE = 5; 
 

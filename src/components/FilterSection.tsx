@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './FilterSection.scss';
+import '../styles/FilterSection.scss';
 
 const FilterSection: React.FC<{
   brandOptions: string[];

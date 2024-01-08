@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Cassette from '../interfaces/Cassette';
-import './TapeList.scss';
+import '../styles/TapeList.scss';
 
 const TapeList: React.FC<{
   filteredCassettes: Cassette[];
