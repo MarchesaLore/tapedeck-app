@@ -164,7 +164,7 @@ describe('Tapedeck Component', () => {
     userEvent.type(itemsPerPageInput, '2');
   
     await waitFor(() => 
-      expect(itemsPerPageInput).toHaveValue('2')
+      expect(itemsPerPageInput).toHaveValue(2)
     );
   
     await waitFor(() => 
