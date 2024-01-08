@@ -53,3 +53,7 @@ In addition to the main components, the Tapedeck app includes:
 
 
 
+# FONTS
+Monoton: main title
+Michroma: labels and results
+
