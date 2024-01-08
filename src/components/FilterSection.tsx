@@ -54,21 +54,26 @@ const FilterSection: React.FC<{
 
   return (
     <div className="filters">
-      <div>
-        <label>Brand:</label>
-        <select
-          value={selectedBrand}
-          onChange={(e) => handleFilterChange('brand', e.target.value)}
-        >
-          <option value="">All Brands</option>
-          {brandOptions.map((brand, index) => (
-            <option key={index} value={brand}>
-              {brand}
-            </option>
-          ))}
-        </select>
+      <div className={selectedBrand!==''?'selected':''}>
+        <div className="circle"></div>
+        <div>
+          <label>Brand:</label>
+          <select
+            value={selectedBrand}
+            onChange={(e) => handleFilterChange('brand', e.target.value)}
+          >
+            <option value="">All Brands</option>
+            {brandOptions.map((brand, index) => (
+              <option key={index} value={brand}>
+                {brand}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
-      <div>
+      <div className={selectedColor!==''?'selected':''}>
+        <div className="circle"></div>
+        <div>
         <label>Color:</label>
         <select
           value={selectedColor}
@@ -81,8 +86,11 @@ const FilterSection: React.FC<{
             </option>
           ))}
         </select>
+        </div>
       </div>
-      <div>
+      <div className={selectedPlayTime!==''?'selected':''}>
+        <div className="circle"></div>
+        <div>
         <label>Play Time:</label>
         <select
           value={selectedPlayTime}
@@ -96,7 +104,10 @@ const FilterSection: React.FC<{
           ))}
         </select>
       </div>
-      <div>
+      </div>
+      <div className={selectedType!==''?'selected':''}>
+        <div className="circle"></div>
+        <div>
         <label>Type:</label>
         <select
           value={selectedType}
@@ -110,6 +121,7 @@ const FilterSection: React.FC<{
           ))}
         </select>
       </div>
+    </div>
       <div className="clear-filter-div">
         <button onClick={clearFilters} className="clear-filter">
           Clear Filters

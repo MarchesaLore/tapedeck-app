@@ -49,11 +49,9 @@ const Tapedeck: React.FC = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-
         //was just slowing down testing the spinner
         //await new Promise(resolve => setTimeout(resolve, 2000));
-        let formattedData: Cassette[] = [];
-        
+        let formattedData: Cassette[] = [];        
         
         const cachedData = sessionStorage.getItem('cassetteData');
         const cachedCassetteData = cachedData ? JSON.parse(cachedData) : [];
