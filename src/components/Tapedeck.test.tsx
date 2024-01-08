@@ -132,7 +132,7 @@ describe('Tapedeck Component', () => {
     await waitFor(() => expect(mockedAxios.get).toHaveBeenCalledTimes(1));
   });
 
-  it('change filter valueto TDK, should come back 2 results', async () => {
+  it('changes filter brand value to TDK, should come back 2 results', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: mockData }); // Mock API response
   
     render(<Tapedeck />);
@@ -150,7 +150,7 @@ describe('Tapedeck Component', () => {
     );
   });
 
-  it('change items per page value to 2, should come back 2 items', async () => {
+  it('changes items per page value to 2, should come back 2 items', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: mockData }); // Mock API response
   
     render(<Tapedeck />);
