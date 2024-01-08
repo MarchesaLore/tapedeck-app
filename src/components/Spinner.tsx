@@ -2,7 +2,7 @@ import React from 'react';
 
 const Spinner: React.FC = () => {
   return (
-    <div className="spinner-container">
+    <div className="spinner-container" id="spinner" aria-label='spinner'>
       <div className="spinner">
         
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">

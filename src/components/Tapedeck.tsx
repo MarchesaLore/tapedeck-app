@@ -44,7 +44,7 @@ const Tapedeck: React.FC = () => {
   //const API_URL = '/cassettes.json'; // Will Update with your actual API URL
   const API_URL_real = 'https://tapedeck-api-fresk.vercel.app/api';
   const API_KEY = 'hoiierhkjhsjkherkhwhwe'; 
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -61,9 +61,9 @@ const Tapedeck: React.FC = () => {
           formattedData = transformCassetteData(cachedCassetteData);
         }else{
           await axios.get(API_URL_real, { 
-            headers: {
-                'x-api-key': API_KEY        
-            },
+          headers: {
+          'x-api-key': API_KEY        
+          },
           }).then((response) => {
             const cassetteData = response.data;
             sessionStorage.setItem('cassetteData', JSON.stringify(cassetteData));
@@ -203,10 +203,10 @@ const Tapedeck: React.FC = () => {
       {/* Total results and clear filters section */}
       <div className="result-summary">
         <div>
-          <p>Total Results: {totalResults}</p>
+          <p aria-label='total-results'>Total Results: {totalResults}</p>
         </div>
         <div>
-          <p>Showing results: {firstResultIndex} - {lastResultIndex}</p>   
+          <p aria-label='showing-results'>Showing results: {firstResultIndex} - {lastResultIndex}</p>   
         </div>
       </div>
 

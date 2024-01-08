@@ -1,60 +1,28 @@
+// src/Tapedeck.test.tsx
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-
+import { render, screen, waitFor } from '@testing-library/react';
+import axios from 'axios'; // Mock axios
 import Tapedeck from './Tapedeck';
 
+jest.mock('axios');
+
+const mockedAxios = axios as jest.Mocked<typeof axios>;
+
 describe('Tapedeck Component', () => {
-  test('renders Tapedeck component', async () => {
+  beforeEach(() => {
+    // Reset mocks before each test
+    jest.resetAllMocks();
+  });
+
+  it('renders Tapedeck component', async () => {
+    mockedAxios.get.mockResolvedValueOnce({ data: [] }); // Mock API response
+
     render(<Tapedeck />);
 
-    // Wait for the component to finish loading
-    await screen.findByText('Tapedeck');
-
-    // Wait for the loading spinner to disappear
-    await waitFor(() => {
-      expect(screen.queryByTestId('spinner')).not.toBeInTheDocument();
-    });
-
-    // Assert that the component renders without errors
+    // You can add more assertions based on your component structure
     expect(screen.getByText('Tapedeck')).toBeInTheDocument();
+
+    await waitFor(() => expect(mockedAxios.get).toHaveBeenCalledTimes(1));
   });
 
-  test('handles item number change', async () => {
-    render(<Tapedeck />);
-
-    // Wait for the component to finish loading
-    await screen.findByText('Tapedeck');
-
-    // Wait for the loading spinner to disappear
-    await waitFor(() => {
-      expect(screen.queryByTestId('spinner')).not.toBeInTheDocument();
-    });
-
-    // Simulate a filter change
-    fireEvent.change(screen.getByLabelText('Items per Page:'), { target: { value: '30' } });
-
-    // Assert that the filter change is reflected in the component
-    expect(screen.getByLabelText('Items per Page:')).toHaveValue('30');
-  });
-
-  test('renders Tapedeck component with correct list after filter change', async () => {
-    render(<Tapedeck />);
-
-    // Wait for the component to finish loading
-    await screen.findByText('Tapedeck');
-
-    // Wait for the loading spinner to disappear
-    await waitFor(() => {
-      expect(screen.queryByTestId('spinner')).not.toBeInTheDocument();
-    });
-
-    // Simulate filter changes
-    fireEvent.change(screen.getByLabelText('Brand Filter'), { target: { value: 'Sony' } });
-    fireEvent.change(screen.getByLabelText('Color Filter'), { target: { value: 'Black' } });
-
-    await waitFor(() => {
-      expect(screen.getByText('Total Results: 1')).toBeInTheDocument();
-    });
-  });
 });

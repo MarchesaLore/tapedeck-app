@@ -58,8 +58,8 @@ const FilterSection: React.FC<{
       <div className={selectedBrand!==''?'selected':''}>
         <div className="circle"></div>
         <div>
-          <label>Brand:</label>
-          <select
+          <label id="brandlabel">Brand:</label>
+          <select aria-labelledby='brandlabel'
             value={selectedBrand}
             onChange={(e) => handleFilterChange('brand', e.target.value)}
           >
@@ -75,8 +75,8 @@ const FilterSection: React.FC<{
       <div className={selectedColor!==''?'selected':''}>
         <div className="circle"></div>
         <div>
-        <label>Color:</label>
-        <select
+        <label id='colorlabel'>Color:</label>
+        <select aria-labelledby='colorlabel'
           value={selectedColor}
           onChange={(e) => handleFilterChange('color', e.target.value)}
         >
@@ -92,8 +92,8 @@ const FilterSection: React.FC<{
       <div className={selectedPlayTime!==''?'selected':''}>
         <div className="circle"></div>
         <div>
-        <label>Play Time:</label>
-        <select
+        <label id='playtimelabel'>Play Time:</label>
+        <select aria-labelledby='playtimelabel'
           value={selectedPlayTime}
           onChange={(e) => handleFilterChange('playTime', e.target.value)}
         >
@@ -109,8 +109,8 @@ const FilterSection: React.FC<{
       <div className={selectedType!==''?'selected':''}>
         <div className="circle"></div>
         <div>
-        <label>Type:</label>
-        <select
+        <label id="typelabel">Type:</label>
+        <select aria-labelledby='typelabel'
           value={selectedType}
           onChange={(e) => handleFilterChange('type', e.target.value)}
         >

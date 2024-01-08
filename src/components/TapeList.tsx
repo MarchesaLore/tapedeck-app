@@ -25,7 +25,7 @@ const TapeList: React.FC<{
           {filteredCassettes.length === 0 && <div className="no-results">No results found</div>}
           {filteredCassettes
             .map((cassette, index) => (
-              <div key={index} className='cassette-item' onClick={() => toggleImage(cassette.key)}>
+                <div key={index} className='cassette-item' onClick={() => toggleImage(cassette.key)}>
                  <div className={`cassette-image ${selectedCassetteKey === cassette.key ? 'visible' : ''}`}>
                   <div>
                      {cassette.img && <img src={cassette.img} alt={`Cassette ${index + 1}`} className="cassette-img" />}
