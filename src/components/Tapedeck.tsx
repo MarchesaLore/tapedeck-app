@@ -195,7 +195,7 @@ const Tapedeck: React.FC = () => {
             type="number"
             min="1"
             value={itemsPerPage}
-            onChange={(e) => setItemsPerPage(parseInt(e.target.value, 10))}
+            onChange={(e) => setItemsPerPage(e.target.value?(parseInt(e.target.value, 5)>totalResults?totalResults:parseInt(e.target.value, 5)) : 5)}
           /> 
         </div>
       </div>

@@ -10,34 +10,105 @@ jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 const mockData = [
   {
-    "key": "1",
-    "brand": "Brand1",
-    "color": "Red",
-    "playingTime": "30min",
-    "type": "Type1"
+      "c4b9a66bc9": [
+          {
+              "page": "http://www.tapedeck.org/400/maxell_mx_100_mg1301.php"
+          },
+          {
+              "img": "http://www.tapedeck.org/400/maxell_mx_100_mg1301.jpg"
+          },
+          {
+              "thumb": "http://www.tapedeck.org/400/maxell_mx_100_mg1301-thumb.jpg"
+          },
+          {
+              "playingTime": "100 minutes"
+          },
+          {
+              "type": "Metal"
+          },
+          {
+              "color": "Black"
+          },
+          {
+              "brand": "Maxell"
+          }
+      ]
   },
   {
-    "key": "2",
-    "brand": "Brand2",
-    "color": "Blue",
-    "playingTime": "60min",
-    "type": "Type2"
+      "23840c06c6": [
+          {
+              "page": "http://www.tapedeck.org/400/tdk_fe_90_080417.php"
+          },
+          {
+              "img": "http://www.tapedeck.org/400/tdk_fe_90_080417.jpg"
+          },
+          {
+              "thumb": "http://www.tapedeck.org/400/tdk_fe_90_080417-thumb.jpg"
+          },
+          {
+              "playingTime": "090 minutes"
+          },
+          {
+              "type": "Ferro"
+          },
+          {
+              "color": "Grey"
+          },
+          {
+              "brand": "TDK"
+          }
+      ]
   },
   {
-    "key": "3",
-    "brand": "Brand2",
-    "color": "Blue",
-    "playingTime": "60min",
-    "type": "Type2"
+      "a798599042": [
+          {
+              "page": "http://www.tapedeck.org/400/Anvic.php"
+          },
+          {
+              "img": "http://www.tapedeck.org/400/Anvic.jpg"
+          },
+          {
+              "thumb": "http://www.tapedeck.org/400/Anvic-thumb.jpg"
+          },
+          {
+              "playingTime": "090 minutes"
+          },
+          {
+              "type": "Chrome"
+          },
+          {
+              "color": "Grey"
+          },
+          {
+              "brand": "Anvic"
+          }
+      ]
   },
   {
-    "key": "4",
-    "brand": "Brand2",
-    "color": "Blue",
-    "playingTime": "60min",
-    "type": "Type2"
+      "df6067a0c9": [
+          {
+              "page": "http://www.tapedeck.org/400/tdk_d_46_071126.php"
+          },
+          {
+              "img": "http://www.tapedeck.org/400/tdk_d_46_071126.jpg"
+          },
+          {
+              "thumb": "http://www.tapedeck.org/400/tdk_d_46_071126-thumb.jpg"
+          },
+          {
+              "playingTime": "048 minutes"
+          },
+          {
+              "type": "Ferro"
+          },
+          {
+              "color": "Grey"
+          },
+          {
+              "brand": "TDK"
+          }
+      ]
   }
-
 ];
 
 
@@ -61,30 +132,46 @@ describe('Tapedeck Component', () => {
     await waitFor(() => expect(mockedAxios.get).toHaveBeenCalledTimes(1));
   });
 
-  it('changes items per page value', async () => {
+  it('change filter value', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: mockData }); // Mock API response
-
+  
     render(<Tapedeck />);
+  
+    const BrandInput = screen.getByLabelText('Brand:');
+    
+    userEvent.selectOptions(BrandInput, 'TDK');
+  
+    await waitFor(() => 
+      expect(BrandInput).toHaveValue('TDK')
+    );
+  
+    await waitFor(() => 
+      expect(screen.getAllByRole('row')).toHaveLength(2)
+    );
+  });
 
+  it('change items per page value', async () => {
+    mockedAxios.get.mockResolvedValueOnce({ data: mockData }); // Mock API response
+  
+    render(<Tapedeck />);
+  
     const itemsPerPageInput = screen.getByLabelText('Items per Page:');
-    userEvent.type(itemsPerPageInput, '25');
-
-
-    await waitFor(() => expect(mockedAxios.get).toHaveBeenCalledTimes(1));
+  
+    // Clear existing value
+    userEvent.clear(itemsPerPageInput);
+  
+    // Type the new value
+    userEvent.type(itemsPerPageInput, '2');
+  
+    await waitFor(() => 
+      expect(itemsPerPageInput).toHaveValue('2')
+    );
+  
+    await waitFor(() => 
+      expect(screen.getAllByRole('row')).toHaveLength(2)
+    );
   });
-
-  it('changes filter and updates results', async () => {
-    mockedAxios.get.mockResolvedValueOnce({ data: mockData }); // Mock API response
-
-    render(<Tapedeck />);
-
-    const brandSelect = screen.getByLabelText('Brand:') as HTMLSelectElement;
-    userEvent.selectOptions(brandSelect, 'Brand1');
-
-    expect(brandSelect.value).toBe('Brand1');
-
-    await waitFor(() => expect(mockedAxios.get).toHaveBeenCalledTimes(1));
-  });
+  
 
 });
 
