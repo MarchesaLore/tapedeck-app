@@ -1,4 +1,7 @@
 html{
   background-color: #eee;
   color: #333;
+  *{
+    box-sizing: border-box;
+  }
 }

@@ -177,14 +177,14 @@ const Tapedeck: React.FC = () => {
       <h1>Tapedeck</h1>
 
       {/* Filter section */}
-      {isFilterVisible && 
       <FilterSection 
       brandOptions={brandOptions} 
       colorOptions={colorOptions} 
       typeOptions={typeOptions} 
       playTimeOptions={playTimeOptions} 
       onFilterChange={onFilterChange}
-      />}
+      isFilterVisible={isFilterVisible}
+      />
       <button className="showFilters" onClick={() => setFilterVisible(!isFilterVisible)}> {isFilterVisible?'hide':'show'} filters</button>
       
       {/* Items per page section */}            

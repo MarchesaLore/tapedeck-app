@@ -7,12 +7,14 @@ const FilterSection: React.FC<{
   playTimeOptions: string[];
   typeOptions: string[];
   onFilterChange: (filterType: string, value: string) => void;
+  isFilterVisible: boolean;
 }> = ({
   brandOptions,
   colorOptions,
   playTimeOptions,
   typeOptions,
   onFilterChange,
+  isFilterVisible
 }) => {
   const [selectedBrand, setSelectedBrand] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
@@ -53,7 +55,7 @@ const FilterSection: React.FC<{
   };
 
   return (
-    <div className="filters">
+  <div className={`filters ${isFilterVisible? '' : 'hidden'}`}>
       <div className={selectedBrand!==''?'selected':''}>
         <div className="circle"></div>
         <div>

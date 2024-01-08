@@ -1,4 +1,6 @@
 .cassette-rack{
+  max-width: 100%;
+  width: 100%;
   box-sizing: border-box;
   display: block;
   max-width: 800px;
@@ -59,6 +61,7 @@
           margin-bottom: 20px;
           @media (max-width: 768px) {          
             padding: 10px;
+            font-size: 10px;
           }
           &.color{
             width: 90px;

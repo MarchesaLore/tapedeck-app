@@ -33,9 +33,9 @@ const TapeList: React.FC<{
                 </div>
                 <div className="cassette-side">
                   <div>
-                    <div>{cassette.brand}</div>
-                    <div>{cassette.type}</div>
-                    <div>{cassette.playingTime}</div>
+                    <div><span>{cassette.brand}</span></div>
+                    <div><span>{cassette.type}</span></div>
+                    <div><span>{cassette.playingTime}</span></div>
                     <div className={`color ${cassette.color?.toLowerCase()}`}><span>{cassette.color}</span></div>
                   </div>  
                 </div>
