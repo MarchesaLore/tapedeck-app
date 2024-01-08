@@ -66,4 +66,10 @@ Fonts have been chosen to represent the area when cassettes are from to similate
 
 ### TESTING
 
-file Tapedeck.test.tsx
+Testing file Tapedeck.test.tsx
+it has been set up to use Jest.
+
+### API
+
+Calling the API only once per session, then saving the data in session and using those instead when reloading the page until the Session end.
+
