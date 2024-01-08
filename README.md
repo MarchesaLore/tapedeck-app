@@ -14,7 +14,7 @@ Future improvement:
 - Time filtering between specified "from" and "to" times.
 - Support for selecting multiple options for the same filter.
 
-<img width="437" alt="image" src="https://github.com/MarchesaLore/tapedeck-app/assets/22336407/0659409d-a727-4cd6-973b-1c181cbe7c35">
+<img width="594" alt="image" src="https://github.com/MarchesaLore/tapedeck-app/assets/22336407/0659409d-a727-4cd6-973b-1c181cbe7c35">
 
 
 
@@ -22,14 +22,22 @@ Future improvement:
 
 The Pagination component enables users to navigate through different pages of the cassette collection. It provides options to move to the first and last pages for convenient exploration.
 
-<img width="198" alt="image" src="https://github.com/MarchesaLore/tapedeck-app/assets/22336407/790f5b3a-de19-4613-afbb-026d91f4a39e">
+<img width="594" alt="image" src="https://github.com/MarchesaLore/tapedeck-app/assets/22336407/790f5b3a-de19-4613-afbb-026d91f4a39e">
+
 
 
 ## 3 TAPELIST
 
-The Tapelist component mirrors the style of a cassette rack. Clicking on a cassette triggers an engaging sliding animation, revealing the cassette's image.
+The Tapelist component shows the list of cassettes and it mirrors the style of a cassette rack.
 
-<img width="467" alt="image" src="https://github.com/MarchesaLore/tapedeck-app/assets/22336407/b2db0b14-03af-4078-8802-10619f670095">
+<img width="594" alt="image" src="https://github.com/MarchesaLore/tapedeck-app/assets/22336407/ff2a2836-505a-4625-ab7e-aa29c0942d4a">
+
+
+Clicking on a cassette triggers an engaging sliding animation, revealing the cassette's image.
+
+<img width="594" alt="image" src="https://github.com/MarchesaLore/tapedeck-app/assets/22336407/787f4cbd-2b0b-4630-88c3-41b94c6b9d55">
+
+
 
 
 ## 4 OTHER FEATURES
@@ -38,7 +46,7 @@ In addition to the main components, the Tapedeck app includes:
 - **Items per Page**: An input field allowing users to adjust the number of visible items per page. Changes dynamically update the list and pagination.
 - **Total Cassettes Found**: Displays the total number of cassettes found, which adjusts dynamically when applying filters. Also, shows the number of cassettes visible on the current page.
 
-  <img width="455" alt="image" src="https://github.com/MarchesaLore/tapedeck-app/assets/22336407/ea7c53cc-e9c7-4344-8747-97baa416e7de">
+  <img width="594" alt="image" src="https://github.com/MarchesaLore/tapedeck-app/assets/22336407/ea7c53cc-e9c7-4344-8747-97baa416e7de">
   
 - **Loading Spinner**: A visual indicator in the form of a loading SVG appears while waiting for the API response.
 - **Error Message**: In the event of an API call error, a clear error message is displayed instead of the cassette list.
