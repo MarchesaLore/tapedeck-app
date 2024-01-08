@@ -54,8 +54,7 @@ const FilterSection: React.FC<{
     onFilterChange('type', '');
   };
 
-  return (
-  <div className={`filters ${isFilterVisible? '' : 'hidden'}`}>
+  return (<div className={`filters ${isFilterVisible? '' : 'hidden'}`}>
       <div className={selectedBrand!==''?'selected':''}>
         <div className="circle"></div>
         <div>

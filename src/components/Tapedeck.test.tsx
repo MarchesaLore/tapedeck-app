@@ -20,7 +20,7 @@ describe('Tapedeck Component', () => {
     expect(screen.getByText('Tapedeck')).toBeInTheDocument();
   });
 
-  test('handles filter change', async () => {
+  test('handles item number change', async () => {
     render(<Tapedeck />);
 
     // Wait for the component to finish loading

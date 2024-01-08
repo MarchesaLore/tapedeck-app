@@ -190,8 +190,8 @@ const Tapedeck: React.FC = () => {
       {/* Items per page section */}            
       <div className="item-per-page-div">
         <div>
-          <label aria-label="itemsPerPage">Items per Page:</label>
-          <input id="itemsPerPage"
+          <label id="itemsPerPage">Items per Page:</label>
+          <input aria-labelledby="itemsPerPage"
             type="number"
             min="1"
             value={itemsPerPage}
