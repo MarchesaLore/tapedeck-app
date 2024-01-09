@@ -1,15 +1,23 @@
 import React from 'react';
+import { useCassettes } from '../contexts/CassettesContext';
+
 import '../styles/Pagination.scss';
 
 const PAGE_RANGE = 5; 
 
-type PaginationProps = {
-  currentPage: number;
-  totalPages: number;
-  handlePageChange: (newPage: number) => void;
-};
+const Pagination: React.FC = () => {
+  const {
+    filteredCassettes,
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+  } = useCassettes();
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, handlePageChange }) => {
+  const totalPages = Math.ceil(filteredCassettes.length / itemsPerPage);
+
+  function handlePageChange(arg0: number): void {
+    setCurrentPage(arg0);
+  }
 
   return (
       <div className="pagination">

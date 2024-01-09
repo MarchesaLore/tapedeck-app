@@ -1,218 +1,86 @@
-import React, { useState, useEffect } from 'react';
-import Cassette from '../interfaces/Cassette';
+import React, { useEffect } from 'react';
+import { useCassettes } from '../contexts/CassettesContext';
 import FilterSection from './FilterSection';
 import TapeList from './TapeList';
 import Pagination from './Pagination';
 import ErrorDisplay from './ErrorDisplay';
 import Spinner from './Spinner';
-import axios from 'axios';
-import '../styles//Tapedeck.scss'; 
+import '../styles/Tapedeck.scss';
+import { getCassettes } from '../services/CassettesService';
 
 const Tapedeck: React.FC = () => {
-  const [allCassettes, setAllCassettes] = useState<Cassette[]>([]);
-  const [filteredCassettes, setFilteredCassettes] = useState<Cassette[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(15);
+  const {
+    filteredCassettes,
+    setOriginalCassettes,
+    setFilteredCassettes,
+    currentPage,
+    itemsPerPage,
+    setItemsPerPage,
+    errorMsg,
+    setErrorMsg,
+    isLoading,
+    setIsLoading
+  } = useCassettes();
 
-  const [brandFilter, setBrandFilter] = useState<string>('');
-  const [colorFilter, setColorFilter] = useState<string>('');
-  const [playTimeFilter, setPlayTimeFilter] = useState<string>('');
-  const [typeFilter, setTypeFilter] = useState<string>('');
-
-  const brandOptions = Array.from(new Set(allCassettes.map((cassette) => cassette.brand)))
-  .filter((brand) => brand !== '')
-  .sort((a, b) => a.localeCompare(b));
-
-  const colorOptions = Array.from(new Set(allCassettes.map((cassette) => cassette.color)))
-  .filter((color) => color !== '')
-  .sort((a, b) => a.localeCompare(b));
-
-  const playTimeOptions = Array.from(new Set(allCassettes.map((cassette) => cassette.playingTime)))
-  .filter((playingTime) => playingTime !== '')
-  .sort((a, b) => a.localeCompare(b));
-
-  const typeOptions = Array.from(new Set(allCassettes.map((cassette) => cassette.type)))
-  .filter((type) => type !== '')
-  .sort((a, b) => a.localeCompare(b));
-
-  const totalResults = filteredCassettes.length;
-  const [errorMsg, seterrorMsg] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isFilterVisible, setFilterVisible] = useState<boolean>(true);
-
-  //const API_URL = '/cassettes.json'; // Will Update with your actual API URL
-  const API_URL_real = 'https://tapedeck-api-fresk.vercel.app/api';
-  const API_KEY = 'hoiierhkjhsjkherkhwhwe'; 
-    
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        //was just slowing down testing the spinner
-        //await new Promise(resolve => setTimeout(resolve, 2000));
-        let formattedData: Cassette[] = [];
-        
-        
-        const cachedData = sessionStorage.getItem('cassetteData');
-        const cachedCassetteData = cachedData ? JSON.parse(cachedData) : [];
-        
-        if (cachedCassetteData.length) {
-          formattedData = transformCassetteData(cachedCassetteData);
-        }else{
-          await axios.get(API_URL_real, { 
-          headers: {
-          'x-api-key': API_KEY        
-          },
-          }).then((response) => {
-            const cassetteData = response.data;
-            sessionStorage.setItem('cassetteData', JSON.stringify(cassetteData));
-            formattedData = transformCassetteData(cassetteData);
-          }).catch((error) => {
-            console.log(error);
-            seterrorMsg(`An error has occurred: ${(error as Error).message}`);
-          });
-        }
-
-        //sorting
+        const formattedData = await getCassettes().catch((error) => { setErrorMsg(error.message); return []; });
         formattedData.sort((a, b) => a.brand.localeCompare(b.brand));
 
-        setAllCassettes(formattedData);
+        // Set both original and filtered cassettes initially
+        setOriginalCassettes(formattedData);
         setFilteredCassettes(formattedData);
-        setTotalPages(Math.ceil(formattedData.length / itemsPerPage));
-      } catch (error) {        
+
+        setIsLoading(false);
+      } catch (error) {
         console.log(error);
-        seterrorMsg(`An error has occurred: ${(error as Error).message}`);
-      }finally{
-        setTimeout(() => setIsLoading(false), 250);
+        // Handle error
       }
     };
 
     fetchData();
-  }, [itemsPerPage]);
-
-
-  
-  useEffect(() => {
-    setIsLoading(true);
-    const totalCassettes = filteredCassettes.length;
-    setTotalPages(Math.ceil(totalCassettes / itemsPerPage));
-    setCurrentPage(1);
-    setTimeout(() => setIsLoading(false), 250);
-  }, [filteredCassettes, itemsPerPage]);
-  
-  
-  useEffect(() => {
-    setIsLoading(true);
-    const filteredCassettes = applyFilters(allCassettes);
-    setFilteredCassettes(filteredCassettes);
-    setTimeout(() => setIsLoading(false), 250);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allCassettes, brandFilter, colorFilter, playTimeFilter, typeFilter]);
-
-  const applyFilters = (cassettes: Cassette[]): Cassette[] => {
-    //console.log('filters ',brandFilter, colorFilter, playTimeFilter, typeFilter);
-    return cassettes.filter((cassette) => {
-      const brandMatches = brandFilter ? cassette.brand === brandFilter : true;
-      const colorMatches = colorFilter ? cassette.color === colorFilter : true;
-      const playTimeMatches = playTimeFilter ? cassette.playingTime === playTimeFilter : true;
-      const typeMatches = typeFilter ? cassette.type === typeFilter : true;
-
-      return brandMatches && colorMatches && playTimeMatches && typeMatches;
-    });
-  };
-
-  const onFilterChange = (filterType: string, value: string) => {
-    switch (filterType) {
-      case 'brand':
-        setBrandFilter(value);
-        break;
-      case 'color':
-        setColorFilter(value);
-        break;
-      case 'playTime':
-        setPlayTimeFilter(value);
-        break;
-      case 'type':
-        setTypeFilter(value);
-        break;
-      default:
-        break;
-    }
-  
-    // Reset to the first page when filters change
-    setCurrentPage(1);
-  };
-  
-  
-  const handlePageChange = (newPage: number) => {
-    const lastPage = Math.ceil(filteredCassettes.length / itemsPerPage);
-    const newCurrentPage = Math.min(Math.max(newPage, 1), lastPage);
-    setCurrentPage(newCurrentPage);
-  };
-
-  const firstResultIndex = (currentPage - 1) * itemsPerPage + 1;
-  const lastResultIndex = Math.min(currentPage * itemsPerPage, totalResults);
-
-  const transformCassetteData = (cassetteData: any): Cassette[] => {
-    // Extract cassette details from the unconventional structure
-    const formattedCassettes = cassetteData.map(
-      (cassetteObject: Record<string, Cassette[]>) => {
-        const key = Object.keys(cassetteObject)[0];
-        const cassetteDetailsArray = cassetteObject[key];
-  
-        const cassetteDetails: Cassette = cassetteDetailsArray.reduce(
-          (acc, item): Cassette => ({ ...acc, ...item }),
-          {} as Cassette
-        );
-  
-        const { page = '', img = '', thumb = '', playingTime = '', brand = '', type = '', color = '' } = cassetteDetails;
-  
-        return { key, page, img, thumb, playingTime, brand, type, color };
-      }
-    );
-    return formattedCassettes;
-  };
-
+  }, [setOriginalCassettes, setFilteredCassettes]);
 
   return (
     <div className="cassette-list">
       <h1>Tapedeck</h1>
 
       {/* Filter section */}
-      <FilterSection 
-      brandOptions={brandOptions} 
-      colorOptions={colorOptions} 
-      typeOptions={typeOptions} 
-      playTimeOptions={playTimeOptions} 
-      onFilterChange={onFilterChange}
-      isFilterVisible={isFilterVisible}
-      />
-      <button className="showFilters" onClick={() => setFilterVisible(!isFilterVisible)}> {isFilterVisible?'hide':'show'} filters</button>
-      
-      {/* Items per page section */}            
+      <FilterSection />
+
+      {/* Items per page section */}
       <div className="item-per-page-div">
         <div>
           <label id="itemsPerPage">Items per Page:</label>
-          <input aria-labelledby="itemsPerPage"
+          <input
+            aria-labelledby="itemsPerPage"
             type="number"
             min="1"
             value={itemsPerPage}
-            onChange={(e) => setItemsPerPage(e.target.value?(parseInt(e.target.value, 5)>totalResults?totalResults:parseInt(e.target.value, 5)) : 5)}
-          /> 
+            onChange={(e) =>
+              setItemsPerPage(
+                e.target.value ? parseInt(e.target.value, 10) : 1
+              )
+            }
+          />
         </div>
       </div>
 
       {/* Total results and clear filters section */}
       <div className="result-summary">
         <div>
-          <p aria-label='total-results'>Total Results: {totalResults}</p>
+          <p aria-label="total-results">Total Results: {filteredCassettes.length}</p>
         </div>
         <div>
-          <p aria-label='showing-results'>Showing results: {firstResultIndex} - {lastResultIndex}</p>   
+        {filteredCassettes.length > 0 && (
+          <p aria-label="showing-results">
+            Showing results: {Math.min((currentPage - 1) * itemsPerPage + 1, filteredCassettes.length)} - {Math.min(currentPage * itemsPerPage, filteredCassettes.length)}
+          </p>
+        )}
         </div>
       </div>
-
 
       {/* Error display */}
       <ErrorDisplay message={errorMsg} />
@@ -221,19 +89,15 @@ const Tapedeck: React.FC = () => {
 
       {/* Cassette list */}
       {!isLoading && errorMsg === '' && (
-        <TapeList
-          filteredCassettes={filteredCassettes.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
-        />
+        <TapeList />
       )}
 
-       {/* Pagination */}
-       {!isLoading && errorMsg === '' && ( <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        handlePageChange={handlePageChange} />)}
+      {/* Pagination */}
+      {!isLoading && errorMsg === '' && (
+        <Pagination/>
+      )}
     </div>
   );
-  
 };
 
 export default Tapedeck;

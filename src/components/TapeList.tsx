@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
-import Cassette from '../interfaces/Cassette';
+import { useCassettes } from '../contexts/CassettesContext'; // Import the context hook
 import '../styles/TapeList.scss';
+import Cassette from '../interfaces/Cassette';
 
-const TapeList: React.FC<{
-  filteredCassettes: Cassette[];
-  
-}> = ({ filteredCassettes}) => {
+const TapeList: React.FC = () => {
+  const { 
+    filteredCassettes,
+    currentPage,
+    itemsPerPage
+   } = useCassettes(); 
+   
+  const visibleCassettes : Cassette[] = filteredCassettes.slice( (currentPage - 1) * itemsPerPage,currentPage * itemsPerPage);
+
+  //this is to be used to show and hide image
   const [selectedCassetteKey, setSelectedCassetteKey] = useState<string>();
 
   // Updated function to toggle the display
@@ -20,30 +27,29 @@ const TapeList: React.FC<{
   };
 
 
+  
   return (
-      <div className='cassette-rack'>
-          {filteredCassettes.length === 0 && <div className="no-results">No results found</div>}
-          {filteredCassettes
-            .map((cassette, index) => (
-                <div key={index} className={`cassette-item ${cassette.img?'has-image':''}`} onClick={() => cassette.img?toggleImage(cassette.key):'return false'} role='row'>
-                 {cassette?.img && 
-                 <div className={`cassette-image ${selectedCassetteKey === cassette.key ? 'visible' : ''}`}>
-                  <div>
-                     <img src={cassette.img} alt={`Cassette ${index + 1}`} className="cassette-img" />
-                  </div>
-                </div>}                
-                <div className="cassette-side">
-                  <div>
-                    <div><span>{cassette.brand}</span></div>
-                    <div><span>{cassette.type}</span></div>
-                    <div><span>{cassette.playingTime}</span></div>
-                    <div className={`color ${cassette.color?.toLowerCase()}`}><span>{cassette.color}</span></div>
-                  </div>  
-                </div>
-              </div>
-            ))}
-
-      </div>
+    <div className='cassette-rack'>
+      {visibleCassettes?.length === 0 && <div className="no-results">No results found</div>}
+      {visibleCassettes.map((cassette, index) => (
+        <div key={index} className={`cassette-item ${cassette.img?'has-image':''}`} onClick={() => cassette.img?toggleImage(cassette.key):'return false'} role='row'>
+          {cassette?.img && 
+          <div className={`cassette-image ${selectedCassetteKey === cassette.key ? 'visible' : ''}`}>
+            <div>
+              <img src={cassette.img} alt={`Cassette ${index + 1}`} className="cassette-img" />
+            </div>
+          </div>}
+          <div className="cassette-side">
+            <div>
+              <div><span>{cassette.brand}</span></div>
+              <div><span>{cassette.type}</span></div>
+              <div><span>{cassette.playingTime}</span></div>
+              <div className={`color ${cassette.color?.toLowerCase()}`}><span>{cassette.color}</span></div>
+            </div>  
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
 

@@ -1,12 +1,13 @@
 import React from 'react';
+import { CassettesProvider } from './contexts/CassettesContext';
 import Tapedeck from './components/Tapedeck'; // Adjust the path based on your actual file structure
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <CassettesProvider>
       <Tapedeck />
-    </div>
+    </CassettesProvider>
   );
 }
 

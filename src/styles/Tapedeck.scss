@@ -38,18 +38,6 @@
       }
       
     }
-    &.showFilters{
-      display: none;
-      text-align: right;
-      background-color: transparent;
-      text-decoration: underline;
-      border: none;
-      color: #333333;
-      padding: 0;
-      @media (max-width:768px) {        
-        display: block;
-      }
-    }
   }
 
   .result-summary {

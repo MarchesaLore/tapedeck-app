@@ -1,25 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useCassettes } from '../contexts/CassettesContext';
 import '../styles/FilterSection.scss';
+import Cassette from '../interfaces/Cassette';
 
-const FilterSection: React.FC<{
-  brandOptions: string[];
-  colorOptions: string[];
-  playTimeOptions: string[];
-  typeOptions: string[];
-  onFilterChange: (filterType: string, value: string) => void;
-  isFilterVisible: boolean;
-}> = ({
-  brandOptions,
-  colorOptions,
-  playTimeOptions,
-  typeOptions,
-  onFilterChange,
-  isFilterVisible
-}) => {
+const FilterSection: React.FC = () => {
+  const [isFilterVisible, setFilterVisible] = useState<boolean>(true);
+
+  const {
+    originalCassettes,
+    setFilteredCassettes,
+    setIsLoading
+  } = useCassettes();
+
   const [selectedBrand, setSelectedBrand] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [selectedPlayTime, setSelectedPlayTime] = useState<string>('');
   const [selectedType, setSelectedType] = useState<string>('');
+  
+  
+  const brandOptions = Array.from(new Set(originalCassettes.map((cassette) => cassette.brand)))
+  .filter((brand) => brand !== '')
+  .sort((a, b) => a.localeCompare(b));
+
+  const colorOptions = Array.from(new Set(originalCassettes.map((cassette) => cassette.color)))
+  .filter((color) => color !== '')
+  .sort((a, b) => a.localeCompare(b));
+
+  const playTimeOptions = Array.from(new Set(originalCassettes.map((cassette) => cassette.playingTime)))
+  .filter((playingTime) => playingTime !== '')
+  .sort((a, b) => a.localeCompare(b));
+
+  const typeOptions = Array.from(new Set(originalCassettes.map((cassette) => cassette.type)))
+  .filter((type) => type !== '')
+  .sort((a, b) => a.localeCompare(b));
 
   const handleFilterChange = (filterType: string, value: string) => {
     switch (filterType) {
@@ -38,9 +51,20 @@ const FilterSection: React.FC<{
       default:
         break;
     }
-
-    onFilterChange(filterType, value);
   };
+  
+  useEffect(() => {
+    
+    setIsLoading(true);
+
+    // Apply filters to the original cassettes list and update the filtered list in the context
+    const filteredList = applyFilters(originalCassettes);
+    setFilteredCassettes(filteredList);
+    
+    setIsLoading(false);
+    
+  }, [selectedBrand, selectedColor, selectedPlayTime, selectedType]);
+  
 
   const clearFilters = () => {
     setSelectedBrand('');
@@ -48,18 +72,39 @@ const FilterSection: React.FC<{
     setSelectedPlayTime('');
     setSelectedType('');
 
-    onFilterChange('brand', '');
-    onFilterChange('color', '');
-    onFilterChange('playTime', '');
-    onFilterChange('type', '');
+    // Reset filters and update the filtered list in the context
+    setFilteredCassettes(originalCassettes);
   };
 
-  return (<div className={`filters ${isFilterVisible? '' : 'hidden'}`}>
-      <div className={selectedBrand!==''?'selected':''}>
-        <div className="circle"></div>
-        <div>
-          <label id="brandlabel">Brand:</label>
-          <select aria-labelledby='brandlabel'
+  const applyFilters = (cassettes: Cassette[]): Cassette[] => {
+    return cassettes.filter((cassette) => {
+      const brandMatches = selectedBrand
+        ? cassette.brand === selectedBrand
+        : true;
+      const colorMatches = selectedColor
+        ? cassette.color === selectedColor
+        : true;
+      const playTimeMatches = selectedPlayTime
+        ? cassette.playingTime === selectedPlayTime
+        : true;
+      const typeMatches = selectedType
+        ? cassette.type === selectedType
+        : true;
+  
+      return brandMatches && colorMatches && playTimeMatches && typeMatches;
+    });
+  };
+  
+
+  return (
+    <div>
+      <div className={`filters ${isFilterVisible ? '' : 'hidden'}`}>
+        <div className={selectedBrand !== '' ? 'selected' : ''}>
+          <div className="circle"></div>
+          <div>
+            <label id="brandlabel">Brand:</label>
+            <select
+            aria-labelledby="brandlabel"
             value={selectedBrand}
             onChange={(e) => handleFilterChange('brand', e.target.value)}
           >
@@ -70,8 +115,8 @@ const FilterSection: React.FC<{
               </option>
             ))}
           </select>
+          </div>
         </div>
-      </div>
       <div className={selectedColor!==''?'selected':''}>
         <div className="circle"></div>
         <div>
@@ -123,12 +168,18 @@ const FilterSection: React.FC<{
         </select>
       </div>
     </div>
-      <div className="clear-filter-div">
-        <button onClick={clearFilters} className="clear-filter">
-          Clear Filters
-        </button>
+        <div className="clear-filter-div">
+          <button onClick={clearFilters} className="clear-filter">
+            Clear Filters
+          </button>
+        </div>
       </div>
+    <button
+      className="toggle-filter"
+      onClick={() => setFilterVisible(!isFilterVisible)}/>
+
     </div>
+
   );
 };
 
