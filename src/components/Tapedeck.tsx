@@ -18,14 +18,12 @@ const Tapedeck: React.FC = () => {
     setItemsPerPage,
     errorMsg,
     setErrorMsg,
-    isLoading,
-    setIsLoading
+    isLoading
   } = useCassettes();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setIsLoading(true);
         const formattedData = await getCassettes().catch((error) => { setErrorMsg(error.message); return []; });
         formattedData.sort((a, b) => a.brand.localeCompare(b.brand));
 
@@ -33,7 +31,6 @@ const Tapedeck: React.FC = () => {
         setOriginalCassettes(formattedData);
         setFilteredCassettes(formattedData);
 
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
         // Handle error
