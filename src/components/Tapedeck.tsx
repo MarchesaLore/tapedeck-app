@@ -6,7 +6,7 @@ import Pagination from './Pagination';
 import ErrorDisplay from './ErrorDisplay';
 import Spinner from './Spinner';
 import '../styles/Tapedeck.scss';
-import { getCassettes } from '../services/CassettesService';
+import { getCassettesService } from '../services/CassettesService';
 
 const Tapedeck: React.FC = () => {
   const {
@@ -18,13 +18,16 @@ const Tapedeck: React.FC = () => {
     setItemsPerPage,
     errorMsg,
     setErrorMsg,
-    isLoading
+    isLoading,
+    setIsLoading,
   } = useCassettes();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const formattedData = await getCassettes().catch((error) => { setErrorMsg(error.message); return []; });
+        setIsLoading(true);
+        const formattedData = await getCassettesService().catch((error) => { 
+          setErrorMsg(error.message); return []; }).finally(() => setIsLoading(false));
         formattedData.sort((a, b) => a.brand.localeCompare(b.brand));
 
         // Set both original and filtered cassettes initially
